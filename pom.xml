@@ -22,13 +22,18 @@
 
 	<properties>
 		<java.version>11</java.version>
+		<sonar.organization>vishalgogawale</sonar.organization>
+		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+		  <sonar.coverage.jacoco.xmlReportPaths>
+    ../target/site/jacoco-aggregate/jacoco.xml
+  </sonar.coverage.jacoco.xmlReportPaths>
 		<jjwt.version>0.9.1</jjwt.version>
 		<swagger.version>3.0.0</swagger.version>
     	<bucket4j.version>4.10.0</bucket4j.version>
 		<modelmapper.version>2.3.9</modelmapper.version>
 		<spring.admin.version>2.3.1</spring.admin.version>
 		<partialize.version>release~20.05</partialize.version>
-	</properties>
+    </properties>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -148,17 +153,29 @@
 
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<goals>
-							<goal>build-info</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+		<plugin>
+			<groupId>org.sonarsource.scanner.maven</groupId>
+
+            <artifactId>sonar-maven-plugin</artifactId>
+		
+
+            <executions>
+
+            <execution>
+
+            <phase>verify</phase>
+
+            <goals>
+
+            <goal>sonar</goal>
+
+            </goals>
+
+            </execution>
+
+            </executions>
+
+            </plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-failsafe-plugin</artifactId>
@@ -173,6 +190,30 @@
 					</execution>
 				</executions>
 			</plugin>
+			    <plugin>
+      <groupId>org.jacoco</groupId>
+     <artifactId>jacoco-maven-plugin</artifactId>
+      <version>0.8.7</version>
+      <executions>
+        <execution>
+          <id>prepare-agent</id>
+          <goals>
+            <goal>prepare-agent</goal>
+          </goals>
+        </execution>
+        <execution>
+          <id>report</id>
+          <goals>
+            <goal>report</goal>
+          </goals>
+          <configuration>
+            <formats>
+              <format>XML</format>
+            </formats>
+          </configuration>
+        </execution>
+      </executions>
+    </plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>build-helper-maven-plugin</artifactId>
